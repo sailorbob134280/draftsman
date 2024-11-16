@@ -2,12 +2,16 @@
 default:
   just --list
 
+# Install the pre-commit hooks
+bootstrap:
+  pre-commit install --hook-type commit-msg --hook-type pre-push
+
 # Build the draftsman binary
 build:
   mkdir -p build
   CGO_ENABLED=false go build -o build/draftsman main.go
 
-# Run draftsman 
+# Run draftsman
 run:
   go run main.go
 
