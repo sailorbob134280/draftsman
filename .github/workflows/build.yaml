@@ -48,9 +48,12 @@ jobs:
 
       - name: Test
         run: go test -coverprofile=coverage.out ./... && go tool cover -func=coverage.out && go tool cover -html=coverage.out -o coverage.html
-        artifacts:
-          - coverage.out
-          - coverage.html
+
+      - name: Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.html
 
   check:
     runs-on: ubuntu-latest
