@@ -47,7 +47,10 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./...
+        run: go test -coverprofile=coverage.out ./... && go tool cover -func=coverage.out && go tool cover -html=coverage.out -o coverage.html
+        artifacts:
+          - coverage.out
+          - coverage.html
 
   check:
     runs-on: ubuntu-latest

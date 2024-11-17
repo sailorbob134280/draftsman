@@ -9,7 +9,7 @@ bootstrap:
 # Build the draftsman binary
 build:
   mkdir -p build
-  CGO_ENABLED=false go build -o build/draftsman main.go
+  CGO_ENABLED=false go build -v -o build/draftsman main.go
 
 # Run draftsman
 run:
@@ -22,8 +22,8 @@ test:
 # Run the tests with coverage
 coverage:
   mkdir -p build
-  go test -coverprofile=coverage.out ./...
-  go tool cover -html=build/coverage.out
+  go test -coverprofile=build/coverage.out ./...
+  go tool cover -html=build/coverage.out -o build/coverage.html
 
 # Run the linter
 lint:
