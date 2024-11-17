@@ -47,7 +47,7 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -coverprofile=coverage.out ./... && go tool cover -func=coverage.out && go tool cover -html=coverage.out -o coverage.html
+        run: go test -v -coverprofile=coverage.out ./... && go tool cover -func=coverage.out && go tool cover -html=coverage.out -o coverage.html
 
       - name: Coverage
         uses: actions/upload-artifact@v4
