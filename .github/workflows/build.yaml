@@ -2,19 +2,20 @@ name: Build
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     needs: [build, check, commit]
 
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: binary
+          path: build
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -28,15 +29,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get the binary artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: binary
-          path: build
-
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
+          context: .
+          file: ./Dockerfile
           push: true
           tags: ghcr.io/sailorbob134280/draftsman:latest
 
