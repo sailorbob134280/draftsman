@@ -22,11 +22,23 @@ test:
 # Run the tests with coverage
 coverage:
   mkdir -p build
-  go test -coverprofile=build/coverage.out ./...
+  go test -v -coverprofile=build/coverage.out ./...
+  go tool cover -func=build/coverage.out
   go tool cover -html=build/coverage.out -o build/coverage.html
 
-# Run the linter
-lint:
+# Run all code checks
+check: check-format vet
+
+# Format all code
+format:
+  gofmt -w .
+
+# Check the format of the code
+check-format:
+  if [ "$(gofmt -l . | wc -l)" -gt 0 ]; then exit 1; fi
+
+# Run the vet tool
+vet:
   go vet ./...
 
 # Clean the build directory
